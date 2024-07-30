@@ -8,7 +8,7 @@
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon app.js",
-    "client":"npm start --prefix ./client",
+    "client":"npm start --prefix ../client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Shivani Patil",

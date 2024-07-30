@@ -9,11 +9,17 @@ import PageNotFound from "./Pages/PageNotFound";
 import Register from "./Auth/Register";
 import { ToastContainer } from "react-toastify";
 import Login from "./Auth/Login";
+import Dashboard from "./user/Dashboard";
+import Private from "./Routes.js/Private";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
+      <Route path="/dashboard" element={<Private />}>
+        <Route path="" element={<Dashboard />}></Route>
+      </Route>
+
       <Route path="/register" element={<Register />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/contact" element={<Contact />}></Route>

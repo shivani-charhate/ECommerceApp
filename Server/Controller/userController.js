@@ -4,7 +4,7 @@ import JWT from "jsonwebtoken";
 
 export const registerController = async (req, res) => {
   try {
-    const { name, email, mobile, password, address } = req.body;
+    const { name, email, mobile, password, address, otp } = req.body;
     console.log(req.body);
     if (!name) {
       return res.send({
@@ -31,6 +31,11 @@ export const registerController = async (req, res) => {
         message: "address Required  ",
       });
     }
+    if (!otp) {
+      return res.send({
+        message: "otp Required  ",
+      });
+    }
     // Check user
     const existingUser = await userModel.findOne({ email: req.body.email });
     if (existingUser) {
@@ -48,6 +53,7 @@ export const registerController = async (req, res) => {
       mobile,
       password: hashedPassword,
       address,
+      otp,
     }).save();
     res.status(201).send({
       sucess: true,
@@ -103,6 +109,51 @@ export const loginController = async (req, res) => {
     res.status(500).send({
       sucess: false,
       message: "Please Provide Valid Email & Password",
+      error,
+    });
+  }
+};
+
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    if (!email) {
+      res.status(404).send({
+        sucess: false,
+        message: "Please Provide Email",
+      });
+    }
+    if (!otp) {
+      res.status(404).send({
+        sucess: false,
+        message: "Please Provide OTP",
+      });
+    }
+    if (!newPassword) {
+      res.status(404).send({
+        sucess: false,
+        message: "Please Provide newPassword",
+      });
+    }
+    const user = await userModel.findOne({ email, otp });
+    if (!user) {
+      res.status(404).send({
+        sucess: false,
+        message: "User not found wrong email & otp",
+      });
+    }
+    const hashed = await hashPassword({ newPassword });
+    console.log(hashed);
+    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+    res.status(200).send({
+      sucess: true,
+      message: "Password reset Sucessufully",
+    });
+  } catch (error) {
+    res.status(500).send({
+      sucess: false,
+      message: "something went wrong,error",
       error,
     });
   }

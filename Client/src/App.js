@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import Login from "./Auth/Login";
 import Dashboard from "./user/Dashboard";
 import Private from "./Routes.js/Private";
+import ForgotPassword from "./Auth/ForgotPassword";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       </Route>
 
       <Route path="/register" element={<Register />}></Route>
+      <Route path="/reset-password" element={<ForgotPassword />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/contact" element={<Contact />}></Route>
       <Route path="/policy" element={<Policy />}></Route>

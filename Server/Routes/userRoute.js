@@ -3,6 +3,7 @@ import express from "express";
 import {
   registerController,
   loginController,
+  forgotPasswordController,
   testController,
 } from "../Controller/userController.js";
 import { isAdmin, signIn } from "../middlware/authMiddlware.js";
@@ -17,5 +18,6 @@ router.get("/test", signIn, isAdmin, testController);
 router.get("/user-auth", signIn, (req, res) => {
   res.status(200).send({ ok: true });
 });
+router.post("/forgot-password", forgotPasswordController);
 
 export default router;

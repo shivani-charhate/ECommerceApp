@@ -11,6 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [mobile, setMobile] = useState("");
   const [address, setAddress] = useState("");
+  const [otp, setOTP] = useState("");
   const navigate = useNavigate("");
 
   //   form
@@ -19,7 +20,7 @@ const Register = () => {
     try {
       const res = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/user/register`,
-        { name, email, password, mobile, address }
+        { name, email, password, mobile, address, otp }
       );
       if (res.data.sucess) {
         // alert("New User added");
@@ -92,6 +93,17 @@ const Register = () => {
               className="form-control"
               id="exampleInputAddress"
               placeholder="Enter Your Address"
+              required
+            ></input>
+          </div>
+          <div className="mb-3">
+            <input
+              type="otp"
+              value={otp}
+              onChange={(e) => setOTP(e.target.value)}
+              className="form-control"
+              id="exampleInputAddress"
+              placeholder="Enter Your OTP"
               required
             ></input>
           </div>

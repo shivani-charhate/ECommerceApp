@@ -7,24 +7,25 @@ import axios from "axios";
 const ForgotPassword = () => {
   const [email, setEmail] = useState();
   const [otp, setOTP] = useState();
-  const [newPassword, setNewPassword] = useState();
-  const navigate = useNavigate();
-  const handleInput = (e) => {
+  const [newPassword, setNewPassword] = useState("");
+  const navigate = useNavigate("");
+  const handleInput = async (e) => {
     e.preventDefault();
     try {
-      const res = axios.post(
+      const res = await axios.post(
         `${process.env.REACT_APP_API}/api/v1/user/forgot-password`,
         { email, otp, newPassword }
       );
-      if (res.data.success) {
+      if (res.data.sucess) {
         toast.success(res.data.message);
+
         navigate("/login");
       } else {
         toast.error(res.data.message);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something Wrong");
     }
   };
   return (

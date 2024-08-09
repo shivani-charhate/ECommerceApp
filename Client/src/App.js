@@ -10,18 +10,32 @@ import Register from "./Auth/Register";
 import { ToastContainer } from "react-toastify";
 import Login from "./Auth/Login";
 import Dashboard from "./user/Dashboard";
-import Private from "./Routes.js/Private";
+import Private from "./Routes/Private";
 import ForgotPassword from "./Auth/ForgotPassword";
+import AdminDashboad from "./Admin/AdminDashboard";
+import AdminRoute from "./Routes/AdminRoute";
+import CreateCategory from "./Admin/CreateCategory";
+import CreateProduct from "./Admin/CreateProduct";
+import AllUsers from "./Admin/AllUsers";
+import Profile from "./user/Profile";
+import Order from "./user/Order";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />}></Route>
       <Route path="/dashboard" element={<Private />}>
-        <Route path="" element={<Dashboard />}></Route>
+        <Route path="user" element={<Dashboard />}></Route>
+        <Route path="user/profile" element={<Profile />}></Route>
+        <Route path="user/orders" element={<Order />}></Route>
       </Route>
-
-      <Route path="/register" element={<Register />}></Route>
+      <Route path="/dashboard" element={<AdminRoute />}>
+        <Route path="admin" element={<AdminDashboad />} />
+        <Route path="admin/create-category" element={<CreateCategory />} />
+        <Route path="admin/create-product" element={<CreateProduct />} />
+        <Route path="admin/user" element={<AllUsers />} />
+      </Route>
+      s<Route path="/register" element={<Register />}></Route>
       <Route path="/reset-password" element={<ForgotPassword />}></Route>
       <Route path="/login" element={<Login />}></Route>
       <Route path="/contact" element={<Contact />}></Route>

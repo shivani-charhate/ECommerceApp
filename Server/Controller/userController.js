@@ -82,12 +82,13 @@ export const loginController = async (req, res) => {
         message: "Please Provide  Password ",
       });
     }
-    const user = await userModel.findOne({ email: req.body.email });
+    const user = await userModel.findOne({ email });
     if (!user) {
       res.status(404).send({
         message: "Email not register",
         sucess: false,
       });
+      console.log(user);
     }
     const match = await comparePassword(password, user.password);
     if (!match) {

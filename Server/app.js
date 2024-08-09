@@ -4,7 +4,7 @@ import morgan from "morgan";
 import CORS from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./Routes/userRoute.js";
-
+import catergoryRoutes from "./Routes/categoryRoute.js";
 const app = express();
 
 // config env file
@@ -21,6 +21,7 @@ app.use(morgan("dev"));
 
 // APIS
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/category", catergoryRoutes);
 
 app.get("/", (req, res) => {
   res.send({

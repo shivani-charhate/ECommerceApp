@@ -5,6 +5,7 @@ import CORS from "cors";
 import connectDB from "./config/db.js";
 import userRoutes from "./Routes/userRoute.js";
 import catergoryRoutes from "./Routes/categoryRoute.js";
+import productRoute from "./Routes/productRoute.js";
 const app = express();
 
 // config env file
@@ -22,6 +23,7 @@ app.use(morgan("dev"));
 // APIS
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/category", catergoryRoutes);
+app.use("/api/v1/product", productRoute);
 
 app.get("/", (req, res) => {
   res.send({

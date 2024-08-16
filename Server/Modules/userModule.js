@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
     mobile: { type: String, required: true },
     address: { type: String, required: true },
     otp: { type: String, required: true },
-    role: { type: Boolean, default: false },
+    role: { type: Boolean, default: false, required: false },
   },
   {
     timestamps: true,

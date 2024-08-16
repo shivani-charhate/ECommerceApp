@@ -3,9 +3,34 @@ import Layout from "../Components/Layout/Layout";
 import AdminMenu from "../Components/Layout/AdminMenu";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuth } from "../Context/Auth";
+import ProductForm from "../Components/form/ProductForm";
 
 const CreateProduct = () => {
   const [products, setProducts] = useState([]);
+  const [name, setName] = useState();
+  const [auth, setAuth] = useAuth();
+
+  const handleInput = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/product/add`,
+        { name },
+        {
+          headers: {
+            Authorization: auth?.token,
+          },
+        }
+      );
+      if (data.sucess) {
+        toast.success("Product Added");
+        getAllProducts();
+      }
+    } catch (error) {
+      console.log("Error while add Product");
+    }
+  };
   const getAllProducts = async () => {
     try {
       const { data } = await axios.get(
@@ -22,6 +47,24 @@ const CreateProduct = () => {
   useEffect(() => {
     getAllProducts();
   }, []);
+  const deleteProduct = async (pId) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API}/api/v1/product/remove/${pId}`,
+        {
+          headers: {
+            Authorization: auth?.token,
+          },
+        }
+      );
+      if (data.sucess) {
+        toast.success("Product Deleted");
+        getAllProducts();
+      }
+    } catch (error) {
+      console.log("Error while delete product");
+    }
+  };
 
   return (
     <Layout>
@@ -31,6 +74,11 @@ const CreateProduct = () => {
         </div>
         <div className="col-md-9">
           <h3>Manage Products</h3>
+          <ProductForm
+            handleInput={handleInput}
+            value={name}
+            setValue={setName}
+          />
           <div className="w-75">
             <table className="table">
               <thead>
@@ -44,7 +92,15 @@ const CreateProduct = () => {
                   <tr>
                     <td key={p._id}>{p.name}</td>
                     <td>
-                      <button className="btn btn-primary"> Edit</button>
+                      <button className="btn btn-primary ms-2"> Edit</button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger ms-2"
+                        onClick={() => deleteProduct(p._id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

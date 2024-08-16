@@ -3,9 +3,37 @@ import Layout from "../Components/Layout/Layout";
 import AdminMenu from "../Components/Layout/AdminMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
+import CategoryForm from "../Components/form/CategoryForm";
+import { useAuth } from "../Context/Auth";
 
 const CreateCategory = () => {
   const [category, setCategory] = useState([]);
+  const [name, setName] = useState();
+  const [auth, setAuth] = useAuth();
+  const handleInput = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/category/create`,
+        { name },
+        // console.log(data)
+        {
+          headers: {
+            Authorization: auth?.token,
+          },
+        }
+      );
+      if (data?.sucess) {
+        // console.warn(data);
+        toast.success(`${name} is created`);
+        getAllCategories();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("something went wrong while add");
+    }
+  };
   const getAllCategories = async () => {
     try {
       const { data } = await axios.get(
@@ -22,6 +50,27 @@ const CreateCategory = () => {
   useEffect(() => {
     getAllCategories();
   }, []);
+  const deleteCategory = async (pId) => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API}/api/v1/category/delete/${pId}`,
+        {
+          headers: {
+            Authorization: auth?.token,
+          },
+        }
+      );
+      if (data.sucess) {
+        toast.success("Category Deleted Sucessfully");
+
+        getAllCategories();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log("Error while delete category");
+    }
+  };
   return (
     <Layout>
       <div className="row p-3 m-3">
@@ -30,6 +79,13 @@ const CreateCategory = () => {
         </div>
         <div className="col-md-9">
           <h3>Manage Category</h3>
+          <div className="p-3 w-50">
+            <CategoryForm
+              handleInput={handleInput}
+              value={name}
+              setValue={setName}
+            />
+          </div>
           <div className="w-75">
             <table className="table">
               <thead>
@@ -44,7 +100,16 @@ const CreateCategory = () => {
                     <td key={c._id}>{c.name}</td>
                     <td>
                       {" "}
-                      <button className="btn btn-primary"> Edit </button>
+                      <button className="btn btn-primary ms-2"> Edit </button>
+                      <button
+                        className="btn btn-danger ms-2"
+                        onClick={() => {
+                          deleteCategory(c._id);
+                        }}
+                      >
+                        {" "}
+                        Delete{" "}
+                      </button>
                     </td>
                   </tr>
                 ))}

@@ -11,7 +11,7 @@ import {
 const router = express.Router();
 
 router.post("/create", signIn, isAdmin, createCategoryController);
-router.post("/update/:id", signIn, updateCategoryController);
+router.put("/update/:id", signIn, updateCategoryController);
 router.get("/getAll", categoryController);
 router.get("/single/:slug", singleCategoryController);
 router.delete("/delete/:id", signIn, isAdmin, deleteCategoryController);

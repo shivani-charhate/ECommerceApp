@@ -17,7 +17,7 @@ const CreateProduct = () => {
   const [quantity, setQuantity] = useState();
   const [shipping, setShipping] = useState();
   const [photo, setPhoto] = useState();
-  const [products, setProducts] = useState([]);
+
   const [name, setName] = useState();
   const [auth, setAuth] = useAuth();
   const navigate = useNavigate();
@@ -71,22 +71,6 @@ const CreateProduct = () => {
     }
   };
 
-  // const getAllProducts = async () => {
-  //   try {
-  //     const { data } = await axios.get(
-  //       `${process.env.REACT_APP_API}/api/v1/product/all`
-  //     );
-  //     if (data.sucess) {
-  //       setProducts(data.products);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("error while fatch all products");
-  //   }
-  // };
-  // useEffect(() => {
-  //   getAllProducts();
-  // }, []);
   // const deleteProduct = async (pId) => {
   //   try {
   //     const { data } = await axios.delete(

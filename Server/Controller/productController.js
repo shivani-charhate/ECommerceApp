@@ -2,6 +2,8 @@ import slugify from "slugify";
 import productModel from "../Modules/productModel.js";
 import fs from "fs";
 
+import { response } from "express";
+
 export const createProductController = async (req, res) => {
   try {
     const { name, slug, price, description, category, quantity, shipping } =
@@ -88,6 +90,13 @@ export const productPhotoController = async (req, res) => {
   try {
     const product = await productModel.findById(req.params.pid).select("photo");
     if (product.photo.data) {
+      // const image = product.photo.data;
+      // image.blob();
+      // const imageBlob = await image.blob();
+      // const imageObjectURL = URL.createObjectURL(imageBlob);
+      // console.log("something", imageObjectURL);
+
+      // console.log("something", image);
       res.set("Content-type", product.photo.contentType);
       return res.status(200).send(product.photo.data);
     }
